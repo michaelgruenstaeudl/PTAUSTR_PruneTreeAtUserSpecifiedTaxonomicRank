@@ -2,9 +2,25 @@
 A Python script to prune a phylogenetic tree at a user-specified taxonomic rank
 
 ## Background
-Phylogenetic trees are diagramatic representations of evolutionary history that consist of nested 'clades'. In practical phylogenetic research, one often needs to prune specific clades from a tree to make it easier to handle. Multiple software tools have been developed to achieve such a pruning operation. The most versatile such tool is [treesliceR](https://github.com/AraujoMat/treesliceR). treesliceR does its job pretty well, but it lacks one critical function: to slice/prune a given phylogenetic tree at a specific taxonomic rank, assuming that the tips of the tree are labelled by full species names. This is what we wish to achieve through a simple Python script.
+Phylogenetic trees are diagramatic representations of evolutionary history that consist of nested 'clades'. In the following example, species A and B would form a clade. Likewise, species A, B and C would form a clade together.
+```
+   ________ species C
+  |
+__|   _____ species A
+  |__|
+     |_____ species B
+```
+In practical phylogenetic research, one often needs to prune specific clades from a tree to make it easier to handle. For example, species A and B may belong to the same genus (i.e., genus X; for taxonomic hierarchies, see below), whereas species C may belong to another genus (i.e., genus Y). Hence, one could "prune" the tree such that only the genera are displayed:
+```
+   __ genus Y
+  |
+__|
+  |__ genus X
+```
+Multiple software tools have been developed to achieve such a pruning operation. The most versatile such tool is [treesliceR](https://github.com/AraujoMat/treesliceR). treesliceR does its job pretty well, but it lacks one critical function: to slice/prune a given phylogenetic tree at a specific taxonomic rank, assuming that the tips of the tree are labelled by full species names. This is what we wish to achieve through a simple Python script.
 
 Taxonomic ranks are a set of nested hierarchies, with the highest rank being the "domain" and the lowest rank typically the "species" ([https://en.wikipedia.org/wiki/Taxonomic_rank](https://en.wikipedia.org/wiki/Taxonomic_rank)). The [NCBI Taxonomy Browser](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi) let's you click your way through the taxonomic ranks. The full set of taxonomic ranks for humans as per [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=9606) would be: 
+```
 Eukaryota; (the rank "domain")
   Opisthokonta;
     Metazoa;
@@ -32,8 +48,13 @@ Eukaryota; (the rank "domain")
                                                 Catarrhini;
                                                   Hominoidea;
                                                     Hominidae; (the rank "family")
-                                                      Homininae;
+                                                      Homininae; (the rank "subfamily")
                                                         Homo;  (the rank "genus")
                                                           Homo sapiens (the rank "species")
+```
+We want to implement this script in Python because the individual functions to achieve a taxonomy-driven pruning operation on a given phylogenetic tree are already existent in a famous Python library: the [ETE Toolkit](https://github.com/etetoolkit/ete). We merely need to take the relevant functions from ETE and combine them to achieve a script that prunes a user-provided phylogenetic tree at a user-specified taxonomic rank.
 
-We want to implement this script in Python because the individual functions to achieve a taxonomy-driven pruning operation on a given phylogenetic tree are already existant in a famous Python library: the [ETE Toolkit](https://github.com/etetoolkit/ete). We merely need to take the relevant functions from ETE and combine them to achieve a script that prunes a user-provided phylogenetic tree at a user-specified taxonomic rank.
+The functions or modules we wish to use from ETE are:
+- [ncbi_taxonomy](http://etetoolkit.org/docs/latest/tutorial/tutorial_ncbitaxonomy.html): This module has the relevant functions to query NCBI Taxonomy to find out which species belongs to which genus, which genus belongs to which subfamily, which subfamily belongs to which family, etc. (see the taxonomic hierarchiy from the bottom up!).
+  - **IMPORTANT:** We hereby wish to use several functions of the Python project [TaxonKit](https://github.com/shenwei356/taxonkit), which has solved many issues for us already.
+- [Advanced traversing a tree](http://etetoolkit.org/docs/latest/tutorial/tutorial_trees.html#advanced-traversing-stopping-criteria): These are base functions of ETE and will allow us to "prune" (or rather **"collapse"**, to use ETE's terminology) the terminal branches of a given tree to higher taxonomic ranks.

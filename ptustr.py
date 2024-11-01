@@ -39,11 +39,11 @@ def setup_logger(user_params: UserParameters) -> logging.Logger:
 
 
 def main(user_params: UserParameters):
-	
-	logger.info(f"Reading input tree(s)")
-	tree_collection = []
-	for tree in open(user_params.infile):
-		tree_collection.append(ete3.Tree(tree))
+    
+    logger.info(f"Reading input tree(s)")
+    tree_collection = []
+    for tree in open(user_params.infile):
+        tree_collection.append(ete3.Tree(tree))
   
     # do the pruning
     

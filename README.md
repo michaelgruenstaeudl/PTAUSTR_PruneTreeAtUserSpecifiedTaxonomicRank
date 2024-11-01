@@ -58,3 +58,10 @@ The functions or modules we wish to use from ETE are:
 - [ncbi_taxonomy](http://etetoolkit.org/docs/latest/tutorial/tutorial_ncbitaxonomy.html): This module has the relevant functions to query NCBI Taxonomy to find out which species belongs to which genus, which genus belongs to which subfamily, which subfamily belongs to which family, etc. (see the taxonomic hierarchiy from the bottom up!).
   - **IMPORTANT:** We hereby wish to use several functions of the Python project [TaxonKit](https://github.com/shenwei356/taxonkit), which has solved many issues for us already.
 - [Advanced traversing a tree](http://etetoolkit.org/docs/latest/tutorial/tutorial_trees.html#advanced-traversing-stopping-criteria): These are base functions of ETE and will allow us to "prune" (or rather **"collapse"**, to use ETE's terminology) the terminal branches of a given tree to higher taxonomic ranks.
+
+## Objective
+To generate a Python script that accepts the name of a NEWICK-formatted tree file and the name of a taxonomic hierarchy as input, traverses through the tree starting from the tips, and collapses each clade to the taxonomic rank desired. The script the writes this reduced tree with new tip labels to file.
+
+## Additional considerations
+- The new tip labels should be the correct taxonomic name for the organism group at that taxonomic hierarchy. For example, if a clade of humans, chimps, gorillas, and orangutans are collapsed to the subfamily level, the terminal branch should be labelled "Homininae".
+- Since there may be duplications in tip labels after the pruning (i.e., when polyphyletic relationships are present), then the tip labels are made unique by adding integers to their labels (e.g., "Homininae_1", "Homininae_2", etc.).

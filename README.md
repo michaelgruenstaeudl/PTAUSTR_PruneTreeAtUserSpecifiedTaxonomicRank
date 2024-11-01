@@ -1,5 +1,5 @@
-# PTAUSTR: Slice Tree At User-Specified Taxonomic Rank
-A Python script to prune a phylogenetic tree at a user-specified taxonomic rank
+# PTUSTR: Prune Tree to User-Specified Taxonomic Rank
+A Python script to prune a phylogenetic tree to a user-specified taxonomic rank
 
 ## Background
 Phylogenetic trees are diagramatic representations of evolutionary history that consist of nested 'clades'. In the following example, species A and B would form a clade. Likewise, species A, B and C would form a clade together.

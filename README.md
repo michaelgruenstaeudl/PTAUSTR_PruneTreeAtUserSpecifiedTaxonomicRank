@@ -65,9 +65,9 @@ To generate a Python script that accepts the name of a NEWICK-formatted tree fil
 ## Implementation and Testing
 
 - Example usage
-  ```
-  Example usage:\\python ptustr.py -i ./data/FelixForest_Zenodo_Angiosperms_100trees_firstTree.tre -t family
-  ```
+```
+python ptustr.py -i ./data/FelixForest_Zenodo_Angiosperms_100trees_firstTree.tre -t family
+```
 
 - **Source of full phylogenetic tree (i.e., maximum text case)**
 The full phylogenetic tree that is co-supplied with the package is the first tree of the tree set presented here: [https://zenodo.org/records/7600341}(https://zenodo.org/records/7600341). With a total of 79,874 terminals, it is one of the largest phylogenetic trees for seed plants inferred today and represents the maximum size of phylogenetic tree that this script needs to be able to handle.

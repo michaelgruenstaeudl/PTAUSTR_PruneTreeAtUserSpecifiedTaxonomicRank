@@ -13,6 +13,7 @@ import coloredlogs
 #from Bio import SeqIO, Nexus, SeqRecord, AlignIO
 import ete3
 import logging
+import os
 
 # ---------------------------------------------------------------------#
 # DEBUGGING HELP
@@ -47,10 +48,12 @@ def main(user_args):
         tree_collection.append(ete3.Tree(tree))
   
     # do the pruning
+    print("Do the pruning operations here")
     
     log.info(f"Writing input tree")
+    outFn = os.path.dirname(os.path.abspath(user_args.infile))+"/"+user_args.outfile
     outtree = tree_collection[0]
-    outtree.write(outfile=user_args.outfile)
+    outtree.write(outfile=outFn)
 
     log.info("end of script\n")
     quit()
@@ -84,8 +87,8 @@ if __name__ == "__main__":
         "-o",
         type=str,
         required=False,
-        help="(Optional) Path and name of input file",
-        default="~/outtree.tre",
+        help="(Optional) Name of output file",
+        default="outtree.tre",
     )
     parser.add_argument(
         "--verbose",

@@ -66,7 +66,7 @@ To generate a Python script that accepts the name of a NEWICK-formatted tree fil
 
 - Example usage
 ```
-python ptustr.py -i ./data/FelixForest_Zenodo_Angiosperms_100trees_firstTree.tre -t family
+python ptustr.py -i ./data/FelixForest_Zenodo_Angiosperms_100trees_firstTree_modified.tre -t family
 ```
 
 - **Source of full phylogenetic tree (i.e., maximum text case)**

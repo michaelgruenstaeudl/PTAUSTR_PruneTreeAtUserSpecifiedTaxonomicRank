@@ -9,6 +9,7 @@ __version__ = "some version information"
 # IMPORTS
 # ---------------------------------------------------------------------#
 import argparse
+import coloredlogs
 #from Bio import SeqIO, Nexus, SeqRecord, AlignIO
 import ete3
 import logging
@@ -29,32 +30,32 @@ import logging
 # MAIN
 # ---------------------------------------------------------------------#
 
-def setup_logger(user_params: UserParameters) -> logging.Logger:
+def setup_logger(user_args):
     logger = logging.getLogger(__name__)
     log_format = "%(asctime)s [%(levelname)s] %(message)s"
-    log_level = logging.DEBUG if user_params.verbose else logging.INFO
+    log_level = logging.DEBUG if user_args.verbose else logging.INFO
     coloredlogs.install(fmt=log_format, level=log_level, logger=logger)
     logger.debug(f"{parser.prog} {__version__}")
     return logger
 
 
-def main(user_params: UserParameters):
+def main(user_args):
     
-    logger.info(f"Reading input tree(s)")
+    log.info(f"Reading input tree(s)")
     tree_collection = []
-    for tree in open(user_params.infile):
+    for tree in open(user_args.infile):
         tree_collection.append(ete3.Tree(tree))
   
     # do the pruning
     
-    logger.info(f"Writing input tree")
+    log.info(f"Writing input tree")
     outtree = tree_collection[0]
-    outtree.write(outfile=user_params.outfile)
+    outtree.write(outfile=user_args.outfile)
 
     log.info("end of script\n")
     quit()
 
-# ------------------------------------------------------------------------------#
+# ---------------------------------------------------------------------#
 # ARGPARSE
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Purpose of this script: " + __title__)
@@ -65,7 +66,7 @@ if __name__ == "__main__":
         "-i",
         type=str,
         required=True,
-        help="path and name of input file",
+        help="Path and name of input file",
         default="~/intree.tre",
     )
     parser.add_argument(
@@ -73,7 +74,7 @@ if __name__ == "__main__":
         "-t",
         type=str,
         required=True,
-        help="taxonomic level",
+        help="Select a taxonomic level (e.g., 'family')",
         default="family",
     )
 
@@ -83,13 +84,20 @@ if __name__ == "__main__":
         "-o",
         type=str,
         required=False,
-        help="(Optional) path and name of input file",
+        help="(Optional) Path and name of input file",
         default="~/outtree.tre",
     )
+    parser.add_argument(
+        "--verbose",
+        "-v",
+        action="store_true",
+        required=False,
+        help="(Optional) Enable verbose logging",
+    )
 
-    params = UserParameters(parser)
-    log = setup_logger(params)
-    main(params)
-# ------------------------------------------------------------------------------#
+    user_args = parser.parse_args()
+    log = setup_logger(user_args)
+    main(user_args)
+# ---------------------------------------------------------------------#
 # EOF
-# ------------------------------------------------------------------------------#
+# ---------------------------------------------------------------------#

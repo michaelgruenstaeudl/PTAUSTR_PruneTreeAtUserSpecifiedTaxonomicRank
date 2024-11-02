@@ -62,6 +62,21 @@ The functions or modules we wish to use from ETE are:
 ## Objective
 To generate a Python script that accepts the name of a NEWICK-formatted tree file and the name of a taxonomic hierarchy as input, traverses through the tree starting from the tips, and collapses each clade to the taxonomic rank desired. The script the writes this reduced tree with new tip labels to file.
 
+## Implementation and Testing
+
+- Example usage
+```
+python ptustr.py -i ./data/FelixForest_Zenodo_Angiosperms_100trees_firstTree.tre -t family
+```
+
+- **Source of full phylogenetic tree (i.e., maximum text case)**
+The full phylogenetic tree that is co-supplied with the package is the first tree of the tree set presented here: [https://zenodo.org/records/7600341}(https://zenodo.org/records/7600341). With a total of 79,874 terminals, it is one of the largest phylogenetic trees for seed plants inferred today and represents the maximum size of phylogenetic tree that this script needs to be able to handle.
+  
+- **Testing to traverse through the tree without the need to interact with NCBI Taxonomy**
+In order to test only the functionality of traversing through the tree and collapsing specific clades without having to interact with NCBI Taxonomy yet, we can use the list 'spp_fam_ord.csv' of [https://zenodo.org/records/7600341](https://zenodo.org/records/7600341) to receive the order and the family name for each possible species name among all land plants known. The list provides the information which plant order and which plant family a plant species belongs to.
+
+
 ## Additional considerations
 - The new tip labels should be the correct taxonomic name for the organism group at that taxonomic hierarchy. For example, if a clade of humans, chimps, gorillas, and orangutans are collapsed to the subfamily level, the terminal branch should be labelled "Homininae".
 - Since there may be duplications in tip labels after the pruning (i.e., when polyphyletic relationships are present), then the tip labels are made unique by adding integers to their labels (e.g., "Homininae_1", "Homininae_2", etc.).
+- For the taxonomy of plants, the database 'World Checklist of Vascular Plants' may be better suited than NCBI Taxonomy. WCVP is available via FTP and may even have an API at the time of this writing. See [https://www.nature.com/articles/s41597-021-00997-6](https://www.nature.com/articles/s41597-021-00997-6) for more details.
